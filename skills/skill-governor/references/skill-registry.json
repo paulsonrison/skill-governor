@@ -1,0 +1,510 @@
+{
+  "schema_version": 1,
+  "source_policy": "Registry identities and claims are supplied by the user, not independently verified endorsements. Verify upstream before executing installation.",
+  "bundles": [
+    {
+      "repo": "multica-ai/andrej-karpathy-skills",
+      "skills": [
+        "read-first",
+        "smallest-version",
+        "stay-in-scope",
+        "why-not-fix",
+        "andrej-karpathy"
+      ],
+      "names": [
+        "karpathy-guidelines",
+        "andrej-karpathy-skills"
+      ]
+    },
+    {
+      "repo": "obra/superpowers",
+      "skills": [
+        "superpower",
+        "add-logs",
+        "break-it"
+      ],
+      "names": [
+        "using-superpowers",
+        "systematic-debugging",
+        "verification-before-completion"
+      ]
+    },
+    {
+      "repo": "Flashmind",
+      "skills": [
+        "plan-no-code",
+        "one-step"
+      ],
+      "names": [
+        "plan-first"
+      ],
+      "unresolved": true
+    },
+    {
+      "repo": "the-senior-dev/senior-dev-skills",
+      "skills": [
+        "explain-the-error",
+        "senior-review"
+      ],
+      "names": [
+        "senior-dev-skills"
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "id": "grill-me",
+      "label": "Grill me",
+      "phase": "Before Code",
+      "sources_text": "`mattpocock/skills` (sub-skill: `grill-me`) | Fallbacks: `robmitt/grill-me-skill`, `shaugupt/grill-me-cursor`",
+      "role": "Adversarial interview skill that stress-tests assumptions, edge cases, and design choices before writing any code.",
+      "trigger": "Ambiguous prompts, greenfield architecture, or underspecified feature requests.",
+      "audit": "Did the agent challenge assumptions and ask targeted architectural/edge-case questions before proposing code?",
+      "sources": [
+        {
+          "repo": "mattpocock/skills",
+          "url": "https://github.com/mattpocock/skills",
+          "status": "user-supplied-unverified",
+          "install_command": "git clone https://github.com/mattpocock/skills.git"
+        },
+        {
+          "repo": "robmitt/grill-me-skill",
+          "url": "https://github.com/robmitt/grill-me-skill",
+          "status": "user-supplied-unverified",
+          "install_command": "git clone https://github.com/robmitt/grill-me-skill.git"
+        },
+        {
+          "repo": "shaugupt/grill-me-cursor",
+          "url": "https://github.com/shaugupt/grill-me-cursor",
+          "status": "user-supplied-unverified",
+          "install_command": "git clone https://github.com/shaugupt/grill-me-cursor.git"
+        }
+      ],
+      "install_note": "Clone to a staging folder, inspect upstream instructions and actual skill paths, then install with the host-supported installer. Clone alone does not activate a skill."
+    },
+    {
+      "id": "read-first",
+      "label": "read first",
+      "phase": "Before Code",
+      "sources_text": "`multica-ai/andrej-karpathy-skills` & `TODAQmicro/qatom-skill`",
+      "role": "Codifies the \"read before write\" rule, forcing agents to inspect existing files, conventions, and dependencies prior to modifying code.",
+      "trigger": "Any task touching an existing repository or file.",
+      "audit": "Were file-read/search tools executed on target files and dependencies *before* any plan or edit was emitted?",
+      "sources": [
+        {
+          "repo": "multica-ai/andrej-karpathy-skills",
+          "url": "https://github.com/multica-ai/andrej-karpathy-skills",
+          "status": "user-supplied-unverified",
+          "install_command": "git clone https://github.com/multica-ai/andrej-karpathy-skills.git"
+        },
+        {
+          "repo": "TODAQmicro/qatom-skill",
+          "url": "https://github.com/TODAQmicro/qatom-skill",
+          "status": "user-supplied-unverified",
+          "install_command": "git clone https://github.com/TODAQmicro/qatom-skill.git"
+        }
+      ],
+      "install_note": "Clone to a staging folder, inspect upstream instructions and actual skill paths, then install with the host-supported installer. Clone alone does not activate a skill."
+    },
+    {
+      "id": "plan-no-code",
+      "label": "plan, no code",
+      "phase": "Before Code",
+      "sources_text": "`Flashmind` (`plan-first`)",
+      "role": "Enforces an explicit planning gate where the agent outputs a step-by-step implementation plan without writing executable code until approved.",
+      "trigger": "Multi-file changes, refactors, or new feature designs prior to user sign-off.",
+      "audit": "Did the output contain a structured step-by-step plan and ZERO executable implementation code blocks?",
+      "sources": [],
+      "install_note": "BLOCKED: Flashmind is not an owner/repository identifier. Ask for the canonical URL; do not invent a command."
+    },
+    {
+      "id": "smallest-version",
+      "label": "smallest version",
+      "phase": "Before Code",
+      "sources_text": "`multica-ai/andrej-karpathy-skills` (Rule 2: \"Simplicity First\") & `JuliusBrussee/cavekit`",
+      "role": "Enforces minimal vertical slices and rejects speculative abstractions, premature generalization, or unrequested configurability.",
+      "trigger": "Feature scoping, MVP builds, or prompts prone to over-engineering.",
+      "audit": "Were speculative abstractions stripped out in favor of the smallest working vertical slice?",
+      "sources": [
+        {
+          "repo": "multica-ai/andrej-karpathy-skills",
+          "url": "https://github.com/multica-ai/andrej-karpathy-skills",
+          "status": "user-supplied-unverified",
+          "install_command": "git clone https://github.com/multica-ai/andrej-karpathy-skills.git"
+        },
+        {
+          "repo": "JuliusBrussee/cavekit",
+          "url": "https://github.com/JuliusBrussee/cavekit",
+          "status": "user-supplied-unverified",
+          "install_command": "git clone https://github.com/JuliusBrussee/cavekit.git"
+        }
+      ],
+      "install_note": "Clone to a staging folder, inspect upstream instructions and actual skill paths, then install with the host-supported installer. Clone alone does not activate a skill."
+    },
+    {
+      "id": "one-step",
+      "label": "one step",
+      "phase": "While Building",
+      "sources_text": "`Flashmind` (`plan-first` / Step-by-Step)",
+      "role": "Restricts the agent to executing one task item per prompt, verifying test output before advancing to the next step.",
+      "trigger": "Approved multi-step implementation plans.",
+      "audit": "Did the agent execute strictly ONE plan item and verify its result before stopping?",
+      "sources": [],
+      "install_note": "BLOCKED: Flashmind is not an owner/repository identifier. Ask for the canonical URL; do not invent a command."
+    },
+    {
+      "id": "stay-in-scope",
+      "label": "stay in scope",
+      "phase": "While Building",
+      "sources_text": "`multica-ai/andrej-karpathy-skills` (Rule 3: \"Surgical Changes\") & `JordanNewell/wranglebot` (`scope-guard`)",
+      "role": "Prevents unsolicited refactoring, drive-by formatting, or touching files outside the explicit task boundary.",
+      "trigger": "All code modification and feature implementation turns.",
+      "audit": "Were 100% of modified lines directly required by the prompt, with zero drive-by formatting or unrelated file edits?",
+      "sources": [
+        {
+          "repo": "multica-ai/andrej-karpathy-skills",
+          "url": "https://github.com/multica-ai/andrej-karpathy-skills",
+          "status": "user-supplied-unverified",
+          "install_command": "git clone https://github.com/multica-ai/andrej-karpathy-skills.git"
+        },
+        {
+          "repo": "JordanNewell/wranglebot",
+          "url": "https://github.com/JordanNewell/wranglebot",
+          "status": "user-supplied-unverified",
+          "install_command": "git clone https://github.com/JordanNewell/wranglebot.git"
+        }
+      ],
+      "install_note": "Clone to a staging folder, inspect upstream instructions and actual skill paths, then install with the host-supported installer. Clone alone does not activate a skill."
+    },
+    {
+      "id": "what-changed",
+      "label": "what changed",
+      "phase": "While Building",
+      "sources_text": "`mishgoldenberg/claude-mods` (`changes`) & `KattyFury/tool_seismic_seismiclogo`",
+      "role": "Requires a concise diff summary stating exactly what files and lines were altered and why after every edit pass.",
+      "trigger": "Every turn that mutates files.",
+      "audit": "Does the response conclude with an explicit file-by-file, line-level summary of what changed and why?",
+      "sources": [
+        {
+          "repo": "mishgoldenberg/claude-mods",
+          "url": "https://github.com/mishgoldenberg/claude-mods",
+          "status": "user-supplied-unverified",
+          "install_command": "git clone https://github.com/mishgoldenberg/claude-mods.git"
+        },
+        {
+          "repo": "KattyFury/tool_seismic_seismiclogo",
+          "url": "https://github.com/KattyFury/tool_seismic_seismiclogo",
+          "status": "user-supplied-unverified",
+          "install_command": "git clone https://github.com/KattyFury/tool_seismic_seismiclogo.git"
+        }
+      ],
+      "install_note": "Clone to a staging folder, inspect upstream instructions and actual skill paths, then install with the host-supported installer. Clone alone does not activate a skill."
+    },
+    {
+      "id": "remember-this",
+      "label": "remember this",
+      "phase": "While Building",
+      "sources_text": "`thedaviddias/claude-mem` & `alirezarezvani/claude-skills` (`agent-memory`)",
+      "role": "Long-term memory protocol that records corrections, project idioms, and past mistakes directly into `CLAUDE.md` (or memory store) to prevent recurring errors.",
+      "trigger": "Whenever a user corrects the agent, establishes a repo convention, or resolves a non-obvious project quirk.",
+      "audit": "Was the new rule, correction, or project idiom persisted to `CLAUDE.md` / agent memory?",
+      "sources": [
+        {
+          "repo": "thedaviddias/claude-mem",
+          "url": "https://github.com/thedaviddias/claude-mem",
+          "status": "user-supplied-unverified",
+          "install_command": "git clone https://github.com/thedaviddias/claude-mem.git"
+        },
+        {
+          "repo": "alirezarezvani/claude-skills",
+          "url": "https://github.com/alirezarezvani/claude-skills",
+          "status": "user-supplied-unverified",
+          "install_command": "git clone https://github.com/alirezarezvani/claude-skills.git"
+        }
+      ],
+      "install_note": "Clone to a staging folder, inspect upstream instructions and actual skill paths, then install with the host-supported installer. Clone alone does not activate a skill."
+    },
+    {
+      "id": "why-not-fix",
+      "label": "Why, not fix",
+      "phase": "When It Breaks",
+      "sources_text": "`multica-ai/andrej-karpathy-skills` & `g-shevchenko/agent-failure-loop-breaker`",
+      "role": "Requires conducting a root-cause diagnosis (5 Whys) rather than applying blind, speculative patches.",
+      "trigger": "Bug reports, broken builds, or test failures.",
+      "audit": "Did the agent complete a 5-Whys root-cause chain and prove *why* the bug happens before proposing a fix?",
+      "sources": [
+        {
+          "repo": "multica-ai/andrej-karpathy-skills",
+          "url": "https://github.com/multica-ai/andrej-karpathy-skills",
+          "status": "user-supplied-unverified",
+          "install_command": "git clone https://github.com/multica-ai/andrej-karpathy-skills.git"
+        },
+        {
+          "repo": "g-shevchenko/agent-failure-loop-breaker",
+          "url": "https://github.com/g-shevchenko/agent-failure-loop-breaker",
+          "status": "user-supplied-unverified",
+          "install_command": "git clone https://github.com/g-shevchenko/agent-failure-loop-breaker.git"
+        }
+      ],
+      "install_note": "Clone to a staging folder, inspect upstream instructions and actual skill paths, then install with the host-supported installer. Clone alone does not activate a skill."
+    },
+    {
+      "id": "explain-the-error",
+      "label": "explain the error",
+      "phase": "When It Breaks",
+      "sources_text": "`the-senior-dev/senior-dev-skills`",
+      "role": "Forces decomposition of stack traces, explanation of failure mechanisms, and isolation of the failing component before proposing a solution.",
+      "trigger": "Prompts containing stack traces, compiler errors, runtime exceptions, or crash logs.",
+      "audit": "Was the stack trace decomposed into exact failure mechanism and isolated component prior to solutioning?",
+      "sources": [
+        {
+          "repo": "the-senior-dev/senior-dev-skills",
+          "url": "https://github.com/the-senior-dev/senior-dev-skills",
+          "status": "user-supplied-unverified",
+          "install_command": "git clone https://github.com/the-senior-dev/senior-dev-skills.git"
+        }
+      ],
+      "install_note": "Clone to a staging folder, inspect upstream instructions and actual skill paths, then install with the host-supported installer. Clone alone does not activate a skill."
+    },
+    {
+      "id": "add-logs",
+      "label": "add logs",
+      "phase": "When It Breaks",
+      "sources_text": "`obra/superpowers` (sub-skill: `systematic-debugging`)",
+      "role": "Mandates inserting diagnostic logging and reproducible test assertions to verify runtime state with empirical evidence.",
+      "trigger": "Non-trivial bugs, state mutations, async/race conditions, or unverified hypotheses.",
+      "audit": "Were targeted diagnostic logs or failing reproduction tests added and evaluated empirically?",
+      "sources": [
+        {
+          "repo": "obra/superpowers",
+          "url": "https://github.com/obra/superpowers",
+          "status": "user-supplied-unverified",
+          "install_command": "git clone https://github.com/obra/superpowers.git"
+        }
+      ],
+      "install_note": "Clone to a staging folder, inspect upstream instructions and actual skill paths, then install with the host-supported installer. Clone alone does not activate a skill."
+    },
+    {
+      "id": "loop-breaker",
+      "label": "loop breaker",
+      "phase": "When It Breaks",
+      "sources_text": "`g-shevchenko/agent-failure-loop-breaker` & `Fallsnacode13/cursor-composer-loop-breaker`",
+      "role": "Active monitor that intercepts recursive retry loops (3+ failed attempts on the same file/bug) and forces the agent to switch strategies or request human input.",
+      "trigger": "2+ consecutive failed fix attempts on the same error or file.",
+      "audit": "Did the agent halt repetitive edits, reset its assumptions, and present a fundamentally different approach or escalate to the user?",
+      "sources": [
+        {
+          "repo": "g-shevchenko/agent-failure-loop-breaker",
+          "url": "https://github.com/g-shevchenko/agent-failure-loop-breaker",
+          "status": "user-supplied-unverified",
+          "install_command": "git clone https://github.com/g-shevchenko/agent-failure-loop-breaker.git"
+        },
+        {
+          "repo": "Fallsnacode13/cursor-composer-loop-breaker",
+          "url": "https://github.com/Fallsnacode13/cursor-composer-loop-breaker",
+          "status": "user-supplied-unverified",
+          "install_command": "git clone https://github.com/Fallsnacode13/cursor-composer-loop-breaker.git"
+        }
+      ],
+      "install_note": "Clone to a staging folder, inspect upstream instructions and actual skill paths, then install with the host-supported installer. Clone alone does not activate a skill."
+    },
+    {
+      "id": "security-pass",
+      "label": "security pass",
+      "phase": "Before Launch",
+      "sources_text": "`PeterPonyu/oh-my-cursor` (`security-review`) & `borghei/Claude-Skills` (`senior-secops`)",
+      "role": "Runs an OWASP-aligned audit across modified files to flag hardcoded secrets, injection vectors, and broken access controls.",
+      "trigger": "Pre-PR/launch checks, or any change touching auth, APIs, user input, DB queries, or secrets.",
+      "audit": "Was an explicit OWASP/secret/access-control audit executed across all modified files?",
+      "sources": [
+        {
+          "repo": "PeterPonyu/oh-my-cursor",
+          "url": "https://github.com/PeterPonyu/oh-my-cursor",
+          "status": "user-supplied-unverified",
+          "install_command": "git clone https://github.com/PeterPonyu/oh-my-cursor.git"
+        },
+        {
+          "repo": "borghei/Claude-Skills",
+          "url": "https://github.com/borghei/Claude-Skills",
+          "status": "user-supplied-unverified",
+          "install_command": "git clone https://github.com/borghei/Claude-Skills.git"
+        }
+      ],
+      "install_note": "Clone to a staging folder, inspect upstream instructions and actual skill paths, then install with the host-supported installer. Clone alone does not activate a skill."
+    },
+    {
+      "id": "break-it",
+      "label": "break it",
+      "phase": "Before Launch",
+      "sources_text": "`SirRuggie/claude-code-orchestration-kit` & `obra/superpowers` (sub-skill: `verification-before-completion`)",
+      "role": "Adversarial red-team review attempting to crash the feature using malicious inputs, edge values, and race conditions.",
+      "trigger": "Feature completion, pre-launch verification, or test-suite hardening.",
+      "audit": "Were concrete adversarial edge cases, boundary inputs, and race conditions tested against the implementation?",
+      "sources": [
+        {
+          "repo": "SirRuggie/claude-code-orchestration-kit",
+          "url": "https://github.com/SirRuggie/claude-code-orchestration-kit",
+          "status": "user-supplied-unverified",
+          "install_command": "git clone https://github.com/SirRuggie/claude-code-orchestration-kit.git"
+        },
+        {
+          "repo": "obra/superpowers",
+          "url": "https://github.com/obra/superpowers",
+          "status": "user-supplied-unverified",
+          "install_command": "git clone https://github.com/obra/superpowers.git"
+        }
+      ],
+      "install_note": "Clone to a staging folder, inspect upstream instructions and actual skill paths, then install with the host-supported installer. Clone alone does not activate a skill."
+    },
+    {
+      "id": "senior-review",
+      "label": "senior review",
+      "phase": "Before Launch",
+      "sources_text": "`JuliusBrussee/skills` (`junior-to-senior`) & `the-senior-dev/senior-dev-skills`",
+      "role": "Adversarial review simulating a Staff/Senior Engineer evaluating architecture, code clarity, and adherence to production best practices.",
+      "trigger": "Final pre-merge/pre-launch quality gate or explicit review requests.",
+      "audit": "Did the output deliver an uncompromising Staff-level critique covering architecture, maintainability, and production readiness?",
+      "sources": [
+        {
+          "repo": "JuliusBrussee/skills",
+          "url": "https://github.com/JuliusBrussee/skills",
+          "status": "user-supplied-unverified",
+          "install_command": "git clone https://github.com/JuliusBrussee/skills.git"
+        },
+        {
+          "repo": "the-senior-dev/senior-dev-skills",
+          "url": "https://github.com/the-senior-dev/senior-dev-skills",
+          "status": "user-supplied-unverified",
+          "install_command": "git clone https://github.com/the-senior-dev/senior-dev-skills.git"
+        }
+      ],
+      "install_note": "Clone to a staging folder, inspect upstream instructions and actual skill paths, then install with the host-supported installer. Clone alone does not activate a skill."
+    },
+    {
+      "id": "superpower",
+      "label": "superpower",
+      "phase": "Cross-Cutting",
+      "sources_text": "`obra/superpowers`",
+      "role": "Jesse Vincent's comprehensive agentic skills framework and software development workflow plugin for Claude Code.",
+      "trigger": "Coordinate when `obra/superpowers` is installed so its sub-skills (`systematic-debugging`, `verification-before-completion`, `test-driven-development`, `brainstorming`) are leveraged natively without duplication.",
+      "audit": "Select and load the applicable native sub-skill without duplicating its workflow.",
+      "sources": [
+        {
+          "repo": "obra/superpowers",
+          "url": "https://github.com/obra/superpowers",
+          "status": "user-supplied-unverified",
+          "install_command": "git clone https://github.com/obra/superpowers.git"
+        }
+      ],
+      "install_note": "Clone to a staging folder, inspect upstream instructions and actual skill paths, then install with the host-supported installer. Clone alone does not activate a skill."
+    },
+    {
+      "id": "andrej-karpathy",
+      "label": "Andrej Karpathy",
+      "phase": "Cross-Cutting",
+      "sources_text": "`multica-ai/andrej-karpathy-skills`",
+      "role": "Implements Andrej Karpathy's 4 core guidelines for coding agents (Think Before Coding, Simplicity First, Surgical Changes, Goal-Driven Execution).",
+      "trigger": "Active baseline coding philosophy across all planning and implementation turns.",
+      "audit": "Show evidence of explicit assumptions, minimal scope and outcome verification.",
+      "sources": [
+        {
+          "repo": "multica-ai/andrej-karpathy-skills",
+          "url": "https://github.com/multica-ai/andrej-karpathy-skills",
+          "status": "user-supplied-unverified",
+          "install_command": "git clone https://github.com/multica-ai/andrej-karpathy-skills.git"
+        }
+      ],
+      "install_note": "Clone to a staging folder, inspect upstream instructions and actual skill paths, then install with the host-supported installer. Clone alone does not activate a skill."
+    },
+    {
+      "id": "rea",
+      "label": "REA",
+      "phase": "Cross-Cutting",
+      "sources_text": "`morluto/rea`",
+      "role": "\"Reverse Engineer Anything\" suite of agent skills and MCP tools that inspect and reconstruct software directly from binaries and assets without source code.",
+      "trigger": "Tasks involving compiled binaries, decompilation, protocol inspection, APK/executable analysis, or closed-source asset reconstruction.",
+      "audit": "Use authorized target artifacts and cite inspection evidence.",
+      "sources": [
+        {
+          "repo": "morluto/rea",
+          "url": "https://github.com/morluto/rea",
+          "status": "user-supplied-unverified",
+          "install_command": "git clone https://github.com/morluto/rea.git"
+        }
+      ],
+      "install_note": "Clone to a staging folder, inspect upstream instructions and actual skill paths, then install with the host-supported installer. Clone alone does not activate a skill."
+    },
+    {
+      "id": "agent-reach",
+      "label": "Agent Reach",
+      "phase": "Cross-Cutting",
+      "sources_text": "`Panniantong/agent-reach`",
+      "role": "Open-source CLI and MCP tool providing zero-fee search and extraction across 13+ web platforms (Twitter/X, Reddit, GitHub, YouTube, etc.).",
+      "trigger": "Tasks requiring external web research, community thread lookup, GitHub issue mining, or live platform extraction.",
+      "audit": "Cite retrieved platform content and keep actions read-only unless separately authorized.",
+      "sources": [
+        {
+          "repo": "Panniantong/agent-reach",
+          "url": "https://github.com/Panniantong/agent-reach",
+          "status": "user-supplied-unverified",
+          "install_command": "git clone https://github.com/Panniantong/agent-reach.git"
+        }
+      ],
+      "install_note": "Clone to a staging folder, inspect upstream instructions and actual skill paths, then install with the host-supported installer. Clone alone does not activate a skill."
+    },
+    {
+      "id": "replica",
+      "label": "Replica",
+      "phase": "Cross-Cutting",
+      "sources_text": "`Jakeschincariol/replica-skill`",
+      "role": "Inspects live URLs, screenshots, or videos to rebuild UI and verify fidelity across layout, style, pixels, and motion.",
+      "trigger": "Frontend cloning, screenshot-to-code, design-to-UI implementation, or visual fidelity verification.",
+      "audit": "Show authorized reference inspection and fidelity verification.",
+      "sources": [
+        {
+          "repo": "Jakeschincariol/replica-skill",
+          "url": "https://github.com/Jakeschincariol/replica-skill",
+          "status": "user-supplied-unverified",
+          "install_command": "git clone https://github.com/Jakeschincariol/replica-skill.git"
+        }
+      ],
+      "install_note": "Clone to a staging folder, inspect upstream instructions and actual skill paths, then install with the host-supported installer. Clone alone does not activate a skill."
+    },
+    {
+      "id": "context-7",
+      "label": "Context 7",
+      "phase": "Cross-Cutting",
+      "sources_text": "`upstash/context7`",
+      "role": "Upstash's documentation platform and MCP server delivering real-time, version-specific library docs and code examples into coding agents.",
+      "trigger": "Any task importing or configuring external libraries, SDKs, or frameworks where API accuracy matters.",
+      "audit": "Retrieve documentation for the correct library and version; connect it to the decision.",
+      "sources": [
+        {
+          "repo": "upstash/context7",
+          "url": "https://github.com/upstash/context7",
+          "status": "user-supplied-unverified",
+          "install_command": "git clone https://github.com/upstash/context7.git"
+        }
+      ],
+      "install_note": "Clone to a staging folder, inspect upstream instructions and actual skill paths, then install with the host-supported installer. Clone alone does not activate a skill."
+    },
+    {
+      "id": "chrome-devtool-mcp",
+      "label": "chrome devTool mcp",
+      "phase": "Cross-Cutting",
+      "sources_text": "`ChromeDevTools/chrome-devtools-mcp`",
+      "role": "Official Chrome DevTools Protocol MCP server allowing AI coding agents to inspect DOM, monitor network traffic, record traces, and debug live browser sessions.",
+      "trigger": "Frontend debugging, DOM/CSS layout inspection, network waterfall analysis, console error triage, or runtime performance tracing.",
+      "audit": "Inspect the relevant browser runtime and report concrete observations.",
+      "sources": [
+        {
+          "repo": "ChromeDevTools/chrome-devtools-mcp",
+          "url": "https://github.com/ChromeDevTools/chrome-devtools-mcp",
+          "status": "user-supplied-unverified",
+          "install_command": "git clone https://github.com/ChromeDevTools/chrome-devtools-mcp.git"
+        }
+      ],
+      "install_note": "Clone to a staging folder, inspect upstream instructions and actual skill paths, then install with the host-supported installer. Clone alone does not activate a skill."
+    }
+  ]
+}

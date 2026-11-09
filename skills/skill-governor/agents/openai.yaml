@@ -1,0 +1,4 @@
+interface:
+  display_name: "General Skill Governor"
+  short_description: "Select skills, gate execution, and audit compliance"
+  default_prompt: "Use $skill-governor to select skills for this task and audit their use."

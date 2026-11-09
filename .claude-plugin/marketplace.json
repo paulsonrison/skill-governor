@@ -1,0 +1,14 @@
+{
+  "name": "skill-governor-marketplace",
+  "owner": {
+    "name": "paulsonrison"
+  },
+  "plugins": [
+    {
+      "name": "skill-governor",
+      "source": "./",
+      "description": "General Skill Governor",
+      "version": "1.0.0"
+    }
+  ]
+}

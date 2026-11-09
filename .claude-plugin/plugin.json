@@ -1,0 +1,10 @@
+{
+  "name": "skill-governor",
+  "version": "1.0.0",
+  "description": "Phase-aware skill selection, approval gates and compliance audits.",
+  "author": {
+    "name": "paulsonrison"
+  },
+  "repository": "https://github.com/paulsonrison/skill-governor",
+  "license": "MIT"
+}
