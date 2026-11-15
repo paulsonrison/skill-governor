@@ -1,6 +1,6 @@
 ---
 name: skill-governor
-description: Select installed skills for a task phase, preserve explicit user selections, gate execution on approval, and audit skill compliance. Use for skill orchestration, capability discovery, or governance requests.
+description: Use when selecting or coordinating installed skills, preserving user-selected skills across a long task, recovering an approved workflow after interruption, or auditing skill compliance.
 ---
 
 # General Skill Governor
@@ -27,7 +27,7 @@ Before task execution show:
 - **Missing Required Skills (Action Required):** sources and verified install procedures, or unresolved status
 - **Tools and limits:** selected connected tools, unknown inventory and conflicts
 
-Ask for **Approve / Install / Modify / Skip Missing** and wait. Read-only discovery is allowed before approval. Explicit approval for this exact plan remains valid; do not repeat the gate during an unchanged approved phase. A phase or material selection change needs approval.
+Ask for **Approve / Install / Modify / Skip Missing** and wait. Read-only discovery is allowed before approval. Explicit approval for this exact plan remains valid; do not repeat the gate during an unchanged approved phase. A material change to the authorized scope, skill contracts or approval conditions needs approval. A phase transition already covered by the approved plan does not need a second approval; inspect the contracts needed for that phase. A newly required skill outside that selection must be proposed before dependent execution. A continuation, status question, model/context reset or package checkpoint alone does not invalidate approval. Read [continuation guidance](references/continuation.md) for multi-turn work.
 
 For missing requirements ask: “Missing required skill(s): [names] from [owner/repo]. Reply [Install] to add them now, [Skip Missing] to proceed with available skills, or [Modify] to change the selection.” Skipping a locked skill requires an explicit user waiver. Never report skipped skills as active or PASS.
 
@@ -35,15 +35,24 @@ Registry clone commands acquire sources; they do not install skills. Verify upst
 
 ## Monitor and audit
 
-Maintain the approved active selection and evidence ledger in conversation context. Route execution through selected skills without overriding their rules. Re-evaluate at phase changes and preserve scope.
+Maintain the approved selection and evidence ledger. For multi-turn work, persist the compact state described in [continuation guidance](references/continuation.md) in an appropriate project-local file; do not rely only on conversation memory. Do not create extra project infrastructure for a short task. Keep secrets and raw credentials out of the ledger.
 
-At the end of each execution turn read [the audit rubric](references/audit-rubric.md). Check every active skill's actual contract and show:
+Audit the actual obligations exercised in this execution segment, using [the audit rubric](references/audit-rubric.md):
 
-| Assigned skill | PASS / FAIL | Concrete evidence |
+| Assigned skill | Result | Concrete evidence or next action |
 | --- | --- | --- |
-| skill name | result | observed action/result or missing evidence |
+| skill name | PASS / FAIL / NOT_RUN / UNVERIFIED | observed result, applicability, or missing proof |
 
-No evidence is FAIL. Identify exact violations and ask: “Skill [name] was not properly applied ([reason]). Grant permission to retry this step strictly enforcing [name]?” Wait for permission. Bound retries per the rubric. Approval-only and status turns may state that execution has not started rather than fabricate an audit.
+- **PASS:** the applicable loaded contract was followed, with observed evidence.
+- **FAIL:** an actual applicable instruction was violated; name that instruction and its effect.
+- **NOT_RUN:** no applicable action was due in this segment. This is not a waiver or a PASS.
+- **UNVERIFIED:** evidence or availability is unknown. Recover available logs/state before making a claim; never turn missing evidence into PASS.
+
+A failing product test, expected TDD red test, incomplete feature or rejected tool attempt is not automatically a skill violation. Report product verification separately. Review by the implementer is not independent review; tests and instruction checks are not host compatibility proof.
+
+For a real violation, disclose it and repair reversible work within existing authorization. Ask only for a missing decision, changed scope, explicitly required contract approval, or an action needing fresh authorization under host rules. Preserve explicit user locks; skipping one still needs a waiver. Do not repeat a denied action without new evidence or authorization, and do not retry a failed installation more than the bound above. If another loaded skill explicitly requires an approval or stop, honor that contract and explain its source.
+
+Status-only turns should say “No new execution this turn” and retain previously verified progress, rather than claiming the project never started. Do not run an irrelevant tool just to fill an audit row. A checkpoint audit records progress; it does not mean the user's whole objective is complete.
 
 ## Runtime limits
 

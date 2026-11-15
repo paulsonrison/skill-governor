@@ -45,6 +45,33 @@ class GovernorTests(unittest.TestCase):
             self.assertNotIn('SECRET-SENTINEL', json.dumps(result))
             self.assertEqual(result['mcp_servers'][0]['status'], 'configured-unverified')
 
+    def test_prompt_recovers_existing_approval_and_scope(self):
+        message = hooks.respond({'hook_event_name': 'UserPromptSubmit'})['hookSpecificOutput']['additionalContext']
+        self.assertIn('ledger', message)
+        self.assertIn('checkpoint', message)
+        self.assertIn('status', message)
+
+    def test_stop_distinguishes_unknown_evidence_from_violation(self):
+        message = hooks.respond({'hook_event_name': 'Stop'})['reason']
+        self.assertIn('UNVERIFIED', message)
+        self.assertIn('No new execution', message)
+        self.assertNotIn('ask permission to retry and stop', message)
+
+    def test_resume_command_links_to_existing_guidance(self):
+        command = ROOT / 'commands/govern.md'
+        self.assertIn('../skills/skill-governor/references/continuation.md', command.read_text(encoding='utf-8'))
+        self.assertTrue((command.parent / '../skills/skill-governor/references/continuation.md').is_file())
+
+    def test_release_versions_and_continuation_reference(self):
+        plugin = json.loads((ROOT / '.claude-plugin/plugin.json').read_text(encoding='utf-8'))
+        market = json.loads((ROOT / '.claude-plugin/marketplace.json').read_text(encoding='utf-8'))
+        self.assertEqual(plugin['version'], '1.1.0')
+        self.assertEqual(plugin['version'], market['plugins'][0]['version'])
+        skill = ROOT / 'skills/skill-governor'
+        self.assertIn('references/continuation.md', (skill / 'SKILL.md').read_text(encoding='utf-8'))
+        self.assertTrue((skill / 'references/continuation.md').is_file())
+        self.assertEqual(market['plugins'][0]['source'], './')
+
     def test_hook_continuation_is_bounded(self):
         self.assertEqual(hooks.respond({'hook_event_name': 'Stop'})['decision'], 'block')
         self.assertEqual(hooks.respond({'hook_event_name': 'Stop', 'stop_hook_active': True}), {})
@@ -67,7 +94,7 @@ class GovernorTests(unittest.TestCase):
         self.assertIsNone(scanner.metadata('---\nname: test\ndescription: {invalid: mapping}\n---\n'))
 
     def test_registry_complete_and_install_gaps_explicit(self):
-        data = json.loads(scanner.REGISTRY.read_text())
+        data = json.loads(scanner.REGISTRY.read_text(encoding='utf-8'))
         self.assertEqual(len(data['skills']), 22)
         self.assertEqual(len({s['id'] for s in data['skills']}), 22)
         for skill in data['skills']:

@@ -1,7 +1,7 @@
 {
   "name": "skill-governor",
-  "version": "1.0.0",
-  "description": "Phase-aware skill selection, approval gates and compliance audits.",
+  "version": "1.1.0",
+  "description": "Select and coordinate AI agent skills, preserve approved workflows across interruptions, and audit actual compliance with evidence.",
   "author": {
     "name": "paulsonrison"
   },

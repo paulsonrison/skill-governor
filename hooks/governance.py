@@ -7,17 +7,20 @@ def respond(event):
     name = event.get('hook_event_name')
     if name in ('SessionStart', 'UserPromptSubmit'):
         return {'hookSpecificOutput': {'hookEventName': name, 'additionalContext':
-            'Use skill-governor: read its SKILL.md, preserve explicit skill locks, inspect capabilities, '
-            'and present the Governance Plan. Wait for approval before execution. Reuse explicit '
-            'approval for an unchanged plan. Do not implement business logic in the governor. '
-            'After execution audit every active skill with concrete evidence.'}}
+            'Use skill-governor: read its SKILL.md and recover the approved plan and ledger. '
+            'Preserve explicit locks and reuse unchanged approval. Present a new Governance Plan '
+            'only when required scope or selection changes. Answer a status question briefly '
+            'without dropping the task. A package checkpoint is not project completion. '
+            'Route implementation to the approved executor, then audit applicable actions with evidence.'}}
     if name == 'Stop' and not event.get('stop_hook_active'):
-        # One bounded continuation requests the audit. It is not a semantic validator.
+        # One reminder only: the hook cannot verify compliance or task completion.
         return {'decision': 'block', 'reason':
-            'Before finishing, provide the skill-governor compliance table for active skills with '
-            'observed PASS/FAIL evidence. If this was only planning, status, or approval, say '
-            'execution has not started. If a skill failed, ask permission to retry and stop. '
-            'Do not repeat task execution or invent evidence.'}
+            'Before finishing, provide a compact audit of applicable skills using PASS, FAIL, '
+            'NOT_RUN or UNVERIFIED with observed evidence. Missing evidence is not a proven violation. '
+            'For a status-only turn say No new execution this turn and retain prior progress. '
+            'Do not rerun work or tools merely to fill rows. Persist unfinished scope and next action '
+            'in the ledger; an audit or checkpoint does not complete the whole task. '
+            'Repair reversible violations within authorization; honor host and loaded-contract approval rules.'}
     return {}
 
 

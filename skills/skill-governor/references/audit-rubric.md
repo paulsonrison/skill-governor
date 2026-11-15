@@ -1,6 +1,6 @@
 # Compliance audit
 
-Audit active skills only. PASS requires observable evidence against the actual loaded contract and the applicable capability check below. FAIL includes missing or unavailable evidence; never invent tool use. Cite file paths, commands, results or user decisions. For external skills derive the rubric from their own instructions, flag ambiguity, and never replace it with a baseline approximation.
+Audit active skills only. PASS requires observable evidence against the actual loaded contract and the applicable capability check below. Use FAIL for an actual applicable contract violation, UNVERIFIED for missing evidence, and NOT_RUN when no obligation was exercised in this segment; never invent tool use. Cite file paths, commands, results or user decisions. For external skills derive the rubric from their own instructions, flag ambiguity, and never replace it with a baseline approximation.
 
 ## grill-me
 
@@ -90,4 +90,4 @@ Retrieve documentation for the correct library and version; connect it to the de
 
 Inspect the relevant browser runtime and report concrete observations.
 
-On failure, explain the violation and request permission for a scoped retry. No automatic retry; stop after a second failed authorized retry and request a new strategy. Never treat an audit as independent proof of correctness.
+For an actual violation, explain the instruction and effect, then repair reversible work within existing authorization. Ask only for a missing decision or authorization, or when another applicable contract requires it. Expected red tests are product evidence, not automatic skill failures. Unknown evidence stays UNVERIFIED until recovered. Keep installation retry bounds and host denial rules. Never treat an audit as independent proof of correctness.

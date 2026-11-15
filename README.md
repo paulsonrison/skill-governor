@@ -1,6 +1,21 @@
-# General Skill Governor
+# Skill Governor
 
-A meta-skill for selecting skills by task phase, preserving user choices, gating execution on approval, and auditing observable compliance. It governs the executor; it does not implement application logic.
+Skill Governor helps an AI coding assistant choose and coordinate the skills it should use for a task. It inspects available capabilities, preserves skills you explicitly selected, asks for approval of the proposed workflow, and checks whether the assistant actually followed the applicable instructions.
+
+For example, you can request Superpowers for planning and testing, Karpathy guidelines for scoped implementation, Context7 for current documentation, and a separate reviewer. The governor coordinates those choices; the selected skills and the host still perform and control the work. Those providers must actually be installed and available: this plugin does not bundle them.
+
+Version **1.1.0** adds guidance for long-running projects: recovering saved progress after interruption, retaining valid approvals, answering status questions without dropping the assignment, and distinguishing a partial checkpoint from a completed project. These rules come from execution failure modes; they are reusable guidance rather than a project-specific workflow.
+
+## What it helps with
+
+- Skill discovery and phase-appropriate selection without loading the entire catalog.
+- Keeping explicitly requested skills visible, including unavailable ones that need a decision.
+- Approval reuse for the same authorized scope; new or materially changed requirements still require a decision.
+- Durable handoffs that record current tasks, branch, verified results, pending reviews and the next action.
+- Evidence-based audits: PASS, FAIL, NOT_RUN and UNVERIFIED distinguish actual violations from unused skills or missing proof.
+- Honest progress: a passing subset, expected failing test or work-in-progress push never implies full acceptance or release readiness.
+
+It is useful when several skills overlap, a project spans many sessions, or you need an auditable account of which instructions were applied. It is **not** an autonomous project manager, test runner, security boundary or guarantee of completion. It cannot extend a host's execution limits, grant permissions or independently prove design fidelity and correctness.
 
 ## Install in Claude Code
 
@@ -23,7 +38,8 @@ Copy `skills/skill-governor` into your Codex skills directory (normally `~/.code
 2. Resolve bundle capabilities, inspect actual contracts, and select 2–4 automatic skills for the phase.
 3. Present the Governance Plan; wait for Approve, Install, Modify, or Skip Missing.
 4. Route execution through approved skills and collect evidence.
-5. Audit every active contract with PASS/FAIL and ask before retrying failures.
+5. Audit the applicable contracts with evidence; distinguish violations from unknown or unused evidence. Repair authorized reversible work without adding unnecessary approval stops.
+6. For multi-turn tasks, save a compact ledger and resume from verified state. See [continuation guidance](skills/skill-governor/references/continuation.md).
 
 ## Validate and test locally
 
@@ -46,7 +62,7 @@ All 22 baseline entries, supplied repository identities, roles, triggers and aud
 
 ## Hooks and limits
 
-SessionStart and UserPromptSubmit inject governance reminders. Stop requests one audit continuation and respects `stop_hook_active` to avoid recursive blocking. The agent must honor the approval gate; these hooks do not deterministically block every mutation or independently evaluate semantic compliance. Status-only turns may state that execution has not started. A disabled or failed hook reduces reminders; it does not establish a PASS.
+SessionStart and UserPromptSubmit inject governance reminders. Stop requests one audit continuation and respects `stop_hook_active` to avoid recursive blocking. The agent must honor applicable approvals and host rules; these hooks do not deterministically block every mutation or independently evaluate semantic compliance. Status-only turns report “No new execution this turn” while retaining prior verified progress. A disabled or failed hook reduces reminders; it does not establish a PASS.
 
 This is an instruction-based governor, not a security sandbox. It never grants tool permissions, overrides host policies, or treats repository instructions as trusted authority. Nothing in the plugin copies, licenses, or endorses third-party skill content.
 
@@ -55,6 +71,10 @@ This is an instruction-based governor, not a security sandbox. It never grants t
 Keep plugin and marketplace versions aligned, run tests and host validation, review the publication diff, commit, tag, and push this repository. Create a GitHub release from the tag for an identifiable version. Consumers add the repository using the marketplace command above. For subsequent versions increment both manifests to avoid stale caches.
 
 Technical references: [plugin manifests](https://code.claude.com/docs/en/plugins-reference), [marketplaces](https://code.claude.com/docs/en/plugin-marketplaces), [hooks](https://code.claude.com/docs/en/hooks).
+
+## Release verification
+
+See [the changelog](CHANGELOG.md) and [implementation/validation plan](IMPLEMENTATION_PLAN.md). Unit tests validate discovery and hook reminders; agent pressure scenarios exercise instruction interpretation. Neither substitutes for live integration with every supported host. A release records which checks actually ran.
 
 ## License
 
